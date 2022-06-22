@@ -8,8 +8,8 @@ export const constantRoutes: Array<AppRouteRecordRaw> = [
     name: 'login',
     hidden: true,
     component: () => import('@/views/user/login/index.vue'),
-    meta: { title: '登录' }
-  }
+    meta: { title: '登录' },
+  },
 ]
 
 export const asyncRoutes: Array<AppRouteRecordRaw> = [
@@ -22,9 +22,9 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '首页', icon: 'home' }
-      }
-    ]
+        meta: { title: '首页', icon: 'home' },
+      },
+    ],
   },
   {
     path: '/perm',
@@ -36,8 +36,8 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
       { path: 'users', component: () => import('@/views/permission/users/index.vue'), name: 'perm_users', meta: { title: '用户管理' } },
       { path: 'roles', component: () => import('@/views/permission/roles/index.vue'), name: 'perm_roles', meta: { title: '角色管理' } },
       { path: 'depts', component: () => import('@/views/permission/depts/index.vue'), name: 'perm_posts', meta: { title: '部门管理' } },
-      { path: 'posts', component: () => import('@/views/permission/posts/index.vue'), name: 'perm_posts', meta: { title: '岗位管理' } }
-    ]
+      { path: 'posts', component: () => import('@/views/permission/posts/index.vue'), name: 'perm_posts', meta: { title: '岗位管理' } },
+    ],
   },
   {
     path: '/system',
@@ -47,23 +47,28 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
     redirect: '/system/menus',
     children: [
       { path: 'menus', component: () => import('@/views/system/menus/index.vue'), name: 'system_menus', meta: { title: '资源管理' } },
-      { path: 'oss', component: () => import('@/views/system/oss/index.vue'), name: 'system_oss', meta: { title: '文件列表' } }
-    ]
+      { path: 'oss', component: () => import('@/views/system/oss/index.vue'), name: 'system_oss', meta: { title: '文件列表' } },
+    ],
   },
   {
     path: '/component',
     component: Layout,
     meta: { title: '组件', icon: 'component' },
     redirect: '/component/index',
-    children: [
-      { path: 'index', component: () => import('@/views/components-demo/index.vue'), name: 'component_index', meta: { title: '组件' } }
-    ]
-  }
+    children: [{ path: 'index', component: () => import('@/views/components-demo/index.vue'), name: 'component_index', meta: { title: '组件' } }],
+  },
+  {
+    path: '/fresh',
+    component: Layout,
+    meta: { title: '钓鱼', icon: 'system' },
+    redirect: '/fresh/index',
+    children: [{ path: 'index', component: () => import('@/views/fresh/index.vue'), name: 'fresh_index', meta: { title: '主页' } }],
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes: constantRoutes
+  routes: constantRoutes,
 })
 
 export default router
