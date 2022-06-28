@@ -19,18 +19,26 @@
               style="width: 100%"
             >
               <el-table-column
-                prop="date"
-                label="Date"
+                prop="url"
+                label="Url"
                 width="180"
               />
               <el-table-column
-                prop="name"
-                label="Name"
+                prop="ip"
+                label="ip"
                 width="180"
               />
               <el-table-column
-                prop="address"
-                label="Address"
+                prop="navigator"
+                label="设备"
+              />
+              <el-table-column
+                prop="city"
+                label="城市"
+              />
+              <el-table-column
+                prop="open"
+                label="开启"
               />
             </el-table>
           </el-card>
@@ -57,11 +65,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import ProductCard from './components/ProductCard.vue'
 
 import Charts from '_c/Charts/index.vue'
+
+import { getFreshList } from '@/api/fresh'
 
 export default defineComponent({
   components: { ProductCard, Charts },
@@ -107,28 +117,17 @@ export default defineComponent({
       }
     ]
 
-    const tableData = [
-      {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-    ]
+
+    let tableData = ref([]);
+
+    const getList = function () {
+      getFreshList().then((res) => {
+        tableData.value = res.data;
+      })
+    }
+
+    getList()
+
 
     return {
       productionDemoData,

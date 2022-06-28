@@ -1,5 +1,6 @@
 import { Controller, Post, Body, Get, Put, Delete, Param, Query } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiExtraModels, ApiBearerAuth } from '@nestjs/swagger'
+import { AllowAnon } from 'src/common/decorators/allow-anon.decorator'
 
 import { ApiResult } from '../../common/decorators/api-result.decorator'
 import { ResultData } from '../../common/utils/result'
@@ -16,8 +17,19 @@ export class FreshController {
   @Post()
   @ApiResult()
   @ApiBearerAuth()
+  @AllowAnon()
   async add(@Body() dto: CreateFreshDto) {
+    dto.time = new Date().getTime().toString()
+    dto.open = '1'
+    dto.version = '1'
+    dto.id = new Date().getTime()
     return await this.freshService.create(dto)
+  }
+
+  @Get('')
+  @ApiResult()
+  async find() {
+    return await this.freshService.findAll()
   }
 
   @Get('/key')

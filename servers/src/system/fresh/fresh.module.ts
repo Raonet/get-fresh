@@ -5,9 +5,10 @@ import { FreshService } from './fresh.service'
 import { FreshController } from './fresh.controller'
 import { FreshEntity } from './fresh.entity'
 import { FreshKeyEntity } from './key.entity'
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FreshEntity, FreshKeyEntity])],
+  imports: [TypeOrmModule.forFeature([FreshEntity, FreshKeyEntity]), HttpModule],
   providers: [FreshService],
   controllers: [FreshController],
 })

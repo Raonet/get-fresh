@@ -3,7 +3,7 @@ import { IsArray, IsIn, IsNumber, IsString, Min, IsNotEmpty, Length, IsNumberStr
 
 export class CreateFreshDto {
   @ApiProperty({ description: 'ip' })
-  readonly id: string
+  id: number
 
   @ApiProperty({ description: 'url' })
   @IsString()
@@ -13,14 +13,20 @@ export class CreateFreshDto {
   readonly ip: string
 
   @ApiProperty({})
-  readonly time: string
+  time: string
 
   @ApiProperty({ description: '开关', required: false })
-  readonly open: string
+  open: string
 
   @ApiProperty({ description: 'js版本' })
-  readonly version: string
+  version: string
 
   @ApiProperty({ description: '是否点击' })
   readonly click: string
+
+  @ApiProperty({ description: '是否点击' })
+  readonly city: string
+
+  @ApiProperty({ description: '是否点击' })
+  readonly navigator: string
 }

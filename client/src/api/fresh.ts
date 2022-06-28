@@ -21,3 +21,10 @@ export function setFreshKey(data: FreshKey): Promise<ResultData<FreshKey>> {
     data: data,
   })
 }
+
+export function getFreshList(): Promise<ResultData<any>> {
+  return http.request<ResultData<any>>({
+    url: `${config.api.baseUrl}/fresh`,
+    method: ApiMethodContants.GET,
+  })
+}

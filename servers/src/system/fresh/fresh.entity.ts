@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 export class FreshEntity {
   @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  public id: string
+  public id: number
 
   @ApiProperty({ description: 'url' })
   @Column({ name: 'url', type: 'varchar' })
@@ -18,6 +18,14 @@ export class FreshEntity {
   @ApiProperty({ description: '时间' })
   @Column({ type: 'varchar', comment: '时间' })
   public time: string
+
+  @ApiProperty({ description: '城市' })
+  @Column({ type: 'varchar', comment: '城市' })
+  public city: string
+
+  @ApiProperty({ description: '设备信息' })
+  @Column({ type: 'varchar', comment: '设备信息' })
+  public navigator: string
 
   @ApiProperty({ description: '开关' })
   @Column({ type: 'varchar', comment: '开关' })
