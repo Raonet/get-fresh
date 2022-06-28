@@ -1,22 +1,8 @@
 <template >
   <div class="dashboard-container">
-
      <div>
+     <el-button type="primary" >设置key</el-button>
       <el-row :gutter="12">
-        <el-col :span="16" :xs="24" :sm="24" :lg="16">
-          <Charts :options="lineChartOptions" height="400px"></Charts>
-          <div style="margin-top: 12px;">
-            <el-row :gutter="12">
-              <el-col :span="12">
-                <Charts :options="pieOptions" height="280px"></Charts>
-                <!-- <chart-pie v-bind="pieDemoData" height="280px"></chart-pie> -->
-              </el-col>
-              <el-col :span="12" >
-                <Charts :options="barOptions" height="280px"></Charts>
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
         <el-col :span="8" :xs="24" :sm="24" :lg="8">
           <div class="product-demo">
             <h3 class="product_tip">项目进度</h3>
@@ -25,19 +11,16 @@
         </el-col>
       </el-row>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-import ProductCard from './components/ProductCard.vue'
-
-import Charts from '_c/Charts/index.vue'
+import ProductCard from '../dashboard/components/ProductCard.vue'
 
 export default defineComponent({
-  components: { ProductCard, Charts },
+  components: { ProductCard },
   setup () {
     const productionDemoData = [
       {
@@ -164,7 +147,7 @@ export default defineComponent({
       productionDemoData,
       lineChartOptions,
       pieOptions,
-      barOptions
+      barOptions,
     }
   }
 })

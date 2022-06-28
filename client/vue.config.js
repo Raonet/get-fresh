@@ -9,36 +9,39 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin') // 开启
 
 const Zopfli = require('@gfx/zopfli') // zipfli 压缩
 
-const resolve = (dir) => path.resolve(__dirname, dir)
+const resolve = dir => path.resolve(__dirname, dir)
 
-const plugins = process.env.NODE_ENV === 'development' ? [] : [
-
-  new CompressionWebpackPlugin({
-    filename: '[path][base].gz',
-    algorithm: (input, compressionOptions, callback) => {
-      return Zopfli.gzip(input, compressionOptions, callback)
-    },
-    test: /\.(js|css)$/, // 匹配文件名
-    threshold: 10240, // 对超过 10K 的数据压缩
-    deleteOriginalAssets: false, // 不删除源文件
-    minRatio: 0.8 // 压缩比
-  }),
-  // brotli 压缩，nginx 同样需要配置, 当浏览器支持 br 格式文件，会首先访问 br 文件，不支持则访问 gz
-  // 必须开启 https, 两种压缩选一种即可
-  new CompressionWebpackPlugin({
-    filename: '[path][base].br',
-    algorithm: 'brotliCompress',
-    test: /\.(js|css|html|svg)$/, // 匹配文件名
-    compressionOptions: {
-      level: 11
-    },
-    threshold: 10240, // 对超过 10K 的数据压缩
-    deleteOriginalAssets: false, // 不删除源文件
-    minRatio: 0.8 // 压缩比
-  })
-]
+const plugins =
+  process.env.NODE_ENV === 'development'
+    ? []
+    : [
+        new CompressionWebpackPlugin({
+          filename: '[path][base].gz',
+          algorithm: (input, compressionOptions, callback) => {
+            return Zopfli.gzip(input, compressionOptions, callback)
+          },
+          test: /\.(js|css)$/, // 匹配文件名
+          threshold: 10240, // 对超过 10K 的数据压缩
+          deleteOriginalAssets: false, // 不删除源文件
+          minRatio: 0.8, // 压缩比
+        }),
+        // brotli 压缩，nginx 同样需要配置, 当浏览器支持 br 格式文件，会首先访问 br 文件，不支持则访问 gz
+        // 必须开启 https, 两种压缩选一种即可
+        new CompressionWebpackPlugin({
+          filename: '[path][base].br',
+          algorithm: 'brotliCompress',
+          test: /\.(js|css|html|svg)$/, // 匹配文件名
+          compressionOptions: {
+            level: 11,
+          },
+          threshold: 10240, // 对超过 10K 的数据压缩
+          deleteOriginalAssets: false, // 不删除源文件
+          minRatio: 0.8, // 压缩比
+        }),
+      ]
 
 module.exports = {
+  lintOnSave: false,
   publicPath: '/',
   assetsDir: 'static',
   productionSourceMap: false,
@@ -50,9 +53,9 @@ module.exports = {
       '/api': {
         target: 'http://localhost:8081',
         ws: true,
-        changeOrigin: true
-      }
-    }
+        changeOrigin: true,
+      },
+    },
   },
   configureWebpack: {
     resolve: {
@@ -60,13 +63,13 @@ module.exports = {
         '@': resolve('src'),
         _c: resolve('src/components'),
         // 如果确认不需要node polyfill，设置resolve.alias设置为false
-        crypto: false
+        crypto: false,
       },
       // extensions: ['.js', '.vue', '.json', '.ts', '.tsx'],
       fallback: {
         crypto: require.resolve('crypto-browserify'),
-        path: require.resolve('path-browserify')
-      }
+        path: require.resolve('path-browserify'),
+      },
     },
     plugins,
     cache: {
@@ -74,9 +77,9 @@ module.exports = {
       type: 'filesystem',
       buildDependencies: {
         // 更改配置文件时，重新缓存
-        config: [__filename]
-      }
-    }
+        config: [__filename],
+      },
+    },
   },
   chainWebpack: config => {
     // it can improve the speed of the first screen, it is recommended to turn on preload
@@ -93,21 +96,6 @@ module.exports = {
     // when there are many pages, it will cause too many meaningless requests
     // config.plugins.delete('prefetch')
     // set svg-sprite-loader
-    config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons'))
-      .end()
-    config.module
-      .rule('icons')
-      .test(/\.svg$/)
-      .include.add(resolve('src/icons'))
-      .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
-      .options({
-        symbolId: 'icon-[name]'
-      })
-      .end()
 
     // 开发环境
     config.when(process.env.NODE_ENV === 'development', config => {
@@ -127,10 +115,12 @@ module.exports = {
       config
         .plugin('ScriptExtHtmlWebpackPlugin')
         .after('html')
-        .use('script-ext-html-webpack-plugin', [{
-          // `runtime` must same as runtimeChunk name. default is `runtime`
-          inline: /runtime\..*\.js$/
-        }])
+        .use('script-ext-html-webpack-plugin', [
+          {
+            // `runtime` must same as runtimeChunk name. default is `runtime`
+            inline: /runtime\..*\.js$/,
+          },
+        ])
         .end()
 
       config.optimization.splitChunks({
@@ -145,21 +135,14 @@ module.exports = {
             name: 'chunk-libs',
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
-            chunks: 'initial' // only package third parties that are initially dependent
+            chunks: 'initial', // only package third parties that are initially dependent
           },
           elementUI: {
             name: 'chunk-elementUI', // split elementUI into a single package
             priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-            test: /[\\/]node_modules[\\/]_?element-plus(.*)/ // in order to adapt to cnpm
+            test: /[\\/]node_modules[\\/]_?element-plus(.*)/, // in order to adapt to cnpm
           },
-          commons: {
-            name: 'chunk-commons',
-            test: resolve('src/components'), // can customize your rules
-            minChunks: 3, //  minimum common number
-            priority: 5,
-            reuseExistingChunk: true
-          }
-        }
+        },
       })
       // 此设置保证有新增的入口文件时,原有缓存的chunk文件仍然可用
       config.optimization.moduleIds = 'deterministic'
@@ -167,5 +150,5 @@ module.exports = {
       // 值为"single"会创建一个在所有生成chunk之间共享的运行时文件
       config.optimization.runtimeChunk('single')
     })
-  }
+  },
 }

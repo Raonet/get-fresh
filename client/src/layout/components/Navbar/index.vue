@@ -18,13 +18,23 @@
             <router-link to="/">
               <el-dropdown-item>首页</el-dropdown-item>
             </router-link>
-            <a target="_blank" href="https://github.com/wenqiyun/nest-admin">
-              <el-dropdown-item>Github</el-dropdown-item>
+            <a @click='visible=true'>
+              <el-dropdown-item @click="visible = true">设置key值</el-dropdown-item>
             </a>
             <el-dropdown-item @click="loginout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+     <el-dialog v-model="visible" width="30%" title="设置key值">
+       <el-input v-model="input" placeholder="请输入key值" />
+           <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="setKey"
+          >确定</el-button
+        >
+      </span>
+    </template>
+     </el-dialog>
     </div>
   </div>
 </template>
@@ -36,11 +46,16 @@ import Hamburger from '_c/Hamburger/index.vue'
 import Breadcrumb from '_c/Breadcrumb/index.vue'
 import { clearAll } from '../../../utils/storage'
 import { ElMessageBox } from 'element-plus'
+import { getFreshKey, setFreshKey } from '@/api/fresh'
 
 export default defineComponent({
   name: 'Navbar',
   components: { Hamburger, Breadcrumb },
   setup () {
+    const visible = ref(false)
+
+    let input = ref('12345')
+
     const store = useStore()
 
     const sidebar = computed(() => store.state.app.sidebar)
@@ -64,9 +79,22 @@ export default defineComponent({
       })
     }
 
+    const getkey = async() => {
+      let key = (await getFreshKey())[0].key
+      input.value = key;
+    }
+
+    getkey();
+
     const dropdownShow = ref<boolean>(false)
     const visibleChange = (show: boolean) => {
       dropdownShow.value = show
+    }
+
+    const setKey = () => {
+      setFreshKey({id: '1', key: input.value}).then((res) => {
+        visible.value = false;
+      })
     }
 
     return {
@@ -76,7 +104,10 @@ export default defineComponent({
       toggleSideBar,
       loginout,
       dropdownShow,
-      visibleChange
+      visibleChange,
+      visible,
+      setKey,
+      input
     }
   }
 })

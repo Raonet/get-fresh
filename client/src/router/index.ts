@@ -22,7 +22,7 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: '首页', icon: 'home' },
+        meta: { title: '钓鱼首页', icon: 'home' },
       },
     ],
   },
@@ -62,7 +62,7 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
     component: Layout,
     meta: { title: '钓鱼', icon: 'system' },
     redirect: '/fresh/index',
-    children: [{ path: 'index', component: () => import('@/views/fresh/index.vue'), name: 'fresh_index', meta: { title: '主页' } }],
+    children: [{ path: 'index', component: () => import('@/views/fresh/index-list.vue'), name: 'fresh_index', meta: { title: '主页' } }],
   },
 ]
 

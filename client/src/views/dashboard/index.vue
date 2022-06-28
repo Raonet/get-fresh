@@ -1,26 +1,53 @@
 <template >
   <div class="dashboard-container">
-
-     <div>
+    <div>
       <el-row :gutter="12">
-        <el-col :span="16" :xs="24" :sm="24" :lg="16">
-          <Charts :options="lineChartOptions" height="400px"></Charts>
-          <div style="margin-top: 12px;">
-            <el-row :gutter="12">
-              <el-col :span="12">
-                <Charts :options="pieOptions" height="280px"></Charts>
-                <!-- <chart-pie v-bind="pieDemoData" height="280px"></chart-pie> -->
-              </el-col>
-              <el-col :span="12" >
-                <Charts :options="barOptions" height="280px"></Charts>
-              </el-col>
-            </el-row>
-          </div>
+        <el-col
+          :span="16"
+          :xs="24"
+          :sm="24"
+          :lg="16"
+        >
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>网站列表</span>
+              </div>
+            </template>
+            <el-table
+              :data="tableData"
+              style="width: 100%"
+            >
+              <el-table-column
+                prop="date"
+                label="Date"
+                width="180"
+              />
+              <el-table-column
+                prop="name"
+                label="Name"
+                width="180"
+              />
+              <el-table-column
+                prop="address"
+                label="Address"
+              />
+            </el-table>
+          </el-card>
         </el-col>
-        <el-col :span="8" :xs="24" :sm="24" :lg="8">
+        <el-col
+          :span="8"
+          :xs="24"
+          :sm="24"
+          :lg="8"
+        >
           <div class="product-demo">
             <h3 class="product_tip">项目进度</h3>
-            <product-card v-for="product in productionDemoData" v-bind="product" :key="product.guid"></product-card>
+            <product-card
+              v-for="product in productionDemoData"
+              v-bind="product"
+              :key="product.guid"
+            ></product-card>
           </div>
         </el-col>
       </el-row>
@@ -38,7 +65,7 @@ import Charts from '_c/Charts/index.vue'
 
 export default defineComponent({
   components: { ProductCard, Charts },
-  setup () {
+  setup() {
     const productionDemoData = [
       {
         guid: 1,
@@ -80,91 +107,32 @@ export default defineComponent({
       }
     ]
 
-    const lineChartOptions = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const tableData = [
+      {
+        date: '2016-05-03',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
       },
-      yAxis: {
-        type: 'value'
+      {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
       },
-      series: [
-        {
-          data: [150, 230, 224, 218, 135, 147, 260],
-          type: 'line'
-        }
-      ]
-    }
-
-    const pieOptions = {
-      tooltip: {
-        trigger: 'item'
+      {
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
       },
-      series: [
-        {
-          name: 'Access From',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
-    }
-
-    const barOptions = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        }
+      {
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
       },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisTick: {
-            alignWithLabel: true
-          }
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
-      series: [
-        {
-          name: 'Direct',
-          type: 'bar',
-          barWidth: '60%',
-          data: [10, 52, 200, 334, 390, 330, 220]
-        }
-      ]
-    }
+    ]
 
     return {
       productionDemoData,
-      lineChartOptions,
-      pieOptions,
-      barOptions
+      tableData
     }
   }
 })
@@ -182,7 +150,7 @@ export default defineComponent({
 
   :deep(.echart-container) {
     border-radius: 4px;
-    box-shadow: 6px 6px 54px 0 rgba(0,0,0,.05);
+    box-shadow: 6px 6px 54px 0 rgba(0, 0, 0, 0.05);
   }
 
   .product-demo {
@@ -190,7 +158,7 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     border-radius: 4px;
-    box-shadow: 6px 6px 54px 0 rgba(0,0,0,.05);
+    box-shadow: 6px 6px 54px 0 rgba(0, 0, 0, 0.05);
     padding: 5px;
 
     .product_tip {

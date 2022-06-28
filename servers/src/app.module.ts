@@ -20,6 +20,7 @@ import { PermModule } from './system/perm/perm.module'
 import { OssModule } from './system/oss/oss.module'
 import { DeptModule } from './system/dept/dept.module'
 import { PostModule } from './system/post/post.module'
+import { FreshModule } from './system/fresh/fresh.module'
 
 @Module({
   imports: [
@@ -33,14 +34,17 @@ import { PostModule } from './system/post/post.module'
     ServeStaticModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => [{
-        rootPath: path.join(__dirname, '../../', 'upload'),
-        exclude: [`${config.get('app.prefix')}`],
-        serveRoot: config.get('app.file.serveRoot'),
-        serveStaticOptions: {
-          cacheControl: true
-        }
-      }] as ServeStaticModuleOptions[]
+      useFactory: (config: ConfigService) =>
+        [
+          {
+            rootPath: path.join(__dirname, '../../', 'upload'),
+            exclude: [`${config.get('app.prefix')}`],
+            serveRoot: config.get('app.file.serveRoot'),
+            serveStaticOptions: {
+              cacheControl: true,
+            },
+          },
+        ] as ServeStaticModuleOptions[],
     }),
     // 数据库
     TypeOrmModule.forRootAsync({
@@ -77,7 +81,8 @@ import { PostModule } from './system/post/post.module'
     PermModule,
     DeptModule,
     PostModule,
-    OssModule
+    OssModule,
+    FreshModule,
     // 业务功能模块
   ],
   // app module 守卫，两个守卫分别依赖 UserService、PermService, 而 UserService、PermService 没有设置全局模块，
@@ -85,12 +90,12 @@ import { PostModule } from './system/post/post.module'
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard
+      useClass: JwtAuthGuard,
     },
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-  ]
+  ],
 })
 export class AppModule {}
