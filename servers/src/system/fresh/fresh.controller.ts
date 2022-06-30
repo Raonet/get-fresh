@@ -20,6 +20,7 @@ export class FreshController {
   @AllowAnon()
   async add(@Body() dto: CreateFreshDto) {
     dto.time = new Date().getTime().toString()
+    console.log(new Date())
     dto.open = '1'
     dto.version = '1'
     dto.id = new Date().getTime()
@@ -42,5 +43,10 @@ export class FreshController {
   @ApiResult()
   async setKey(@Body() dto: FreshKeyDto) {
     return await this.freshService.setKey(dto.key)
+  }
+
+  @Put()
+  async modify() {
+    return await this.freshService.update()
   }
 }

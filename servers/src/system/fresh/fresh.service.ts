@@ -53,4 +53,6 @@ export class FreshService {
     if (!fresh) return ResultData.fail(AppHttpCode.SERVICE_ERROR, '当前角色更新失败，请稍后尝试')
     return ResultData.ok()
   }
+
+  async update() {}
 }

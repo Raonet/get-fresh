@@ -17,6 +17,8 @@
             <el-table
               :data="tableData"
               style="width: 100%"
+              stripe
+              border
             >
               <el-table-column
                 prop="url"
@@ -39,6 +41,11 @@
               <el-table-column
                 prop="open"
                 label="开启"
+              />
+              <el-table-column
+                prop="time"
+                label="时间"
+                :formatter="formatterTime"
               />
             </el-table>
           </el-card>
@@ -72,6 +79,8 @@ import ProductCard from './components/ProductCard.vue'
 import Charts from '_c/Charts/index.vue'
 
 import { getFreshList } from '@/api/fresh'
+
+import dayjs from 'dayjs'
 
 export default defineComponent({
   components: { ProductCard, Charts },
@@ -122,16 +131,21 @@ export default defineComponent({
 
     const getList = function () {
       getFreshList().then((res) => {
-        tableData.value = res.data;
+        tableData.value = res.data.reverse();
       })
     }
 
     getList()
 
+    const formatterTime = (row: any, column: any, cellValue: any) => {
+      return dayjs(Number(cellValue)).format("YYYY-MM-DD HH:mm:ss");
+    }
+
 
     return {
       productionDemoData,
-      tableData
+      tableData,
+      formatterTime
     }
   }
 })
