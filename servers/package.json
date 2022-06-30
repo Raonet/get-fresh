@@ -39,6 +39,7 @@
     "csurf": "^1.11.0",
     "dayjs": "^1.10.7",
     "express-rate-limit": "^5.5.1",
+    "hbs": "^4.2.0",
     "helmet": "^4.6.0",
     "js-yaml": "^4.1.0",
     "log4js": "^6.3.0",

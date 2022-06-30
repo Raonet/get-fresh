@@ -28,3 +28,10 @@ export function getFreshList(): Promise<ResultData<any>> {
     method: ApiMethodContants.GET,
   })
 }
+
+export function getFileList() {
+  return http.request<ResultData<any>>({
+    url: `${config.api.baseUrl}/fresh/file`,
+    method: ApiMethodContants.GET,
+  })
+}

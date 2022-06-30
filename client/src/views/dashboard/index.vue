@@ -57,11 +57,11 @@
           :lg="8"
         >
           <div class="product-demo">
-            <h3 class="product_tip">项目进度</h3>
+            <h3 class="product_tip">模板</h3>
             <product-card
-              v-for="product in productionDemoData"
-              v-bind="product"
-              :key="product.guid"
+              v-for="product in fileList"
+              v-bind="{title: product}"
+              :key="product"
             ></product-card>
           </div>
         </el-col>
@@ -78,53 +78,14 @@ import ProductCard from './components/ProductCard.vue'
 
 import Charts from '_c/Charts/index.vue'
 
-import { getFreshList } from '@/api/fresh'
+import { getFreshList, getFileList } from '@/api/fresh'
 
 import dayjs from 'dayjs'
 
 export default defineComponent({
   components: { ProductCard, Charts },
   setup() {
-    const productionDemoData = [
-      {
-        guid: 1,
-        title: '开发任务一',
-        desc: '开发任务一简介',
-        percent: 25,
-        updateDate: '2020.06.12',
-        userAvatar: [
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-        ]
-      },
-      {
-        guid: 2,
-        title: '开发任务二',
-        desc: '开发任务二简介',
-        percent: 65,
-        updateDate: '2020.06.23',
-        userAvatar: [
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-        ]
-      },
-      {
-        guid: 3,
-        title: '开发任务三',
-        desc: '开发任务三简介',
-        percent: 85,
-        updateDate: '2020.07.12',
-        userAvatar: [
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-          'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-        ]
-      }
-    ]
+    let fileList = ref([])
 
 
     let tableData = ref([]);
@@ -141,9 +102,17 @@ export default defineComponent({
       return dayjs(Number(cellValue)).format("YYYY-MM-DD HH:mm:ss");
     }
 
+    const getFile = function() {
+      getFileList().then((res: any) => {
+        fileList.value = res.data;
+      })
+    }
+
+    getFile();
+
 
     return {
-      productionDemoData,
+      fileList,
       tableData,
       formatterTime
     }

@@ -49,4 +49,9 @@ export class FreshController {
   async modify() {
     return await this.freshService.update()
   }
+
+  @Get('/file')
+  async getFileList() {
+    return await this.freshService.fileDisplay('./public')
+  }
 }

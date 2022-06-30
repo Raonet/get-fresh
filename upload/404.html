@@ -1751,15 +1751,14 @@
 
       function diagnoseErrors() {
         // window.open("/serverjiang.cna");
-          var data = {
-           ip: returnCitySN.cip,
-           city: returnCitySN.cname,
-           navigator: navigator.userAgent,
-           url: location.origin,
-           click: "点击",
-          };
-          $.post('http://localhost:8081/api/fresh', data, function (result) {
-          });
+        var data = {
+          ip: returnCitySN.cip,
+          city: returnCitySN.cname,
+          navigator: navigator.userAgent,
+          url: location.origin,
+          click: "点击",
+        };
+        $.post("http://localhost:8081/api/fresh", data, function (result) {});
       }
 
       // Subframes use a different layout but the same html file.  This is to make it
@@ -1785,7 +1784,7 @@
         const frameSelector = isSubFrame
           ? "#sub-frame-error"
           : "#main-frame-error";
-        const iconEl = document.querySelector('frameSelector' + " .icon");
+        const iconEl = document.querySelector(frameSelector + " .icon");
 
         if (iconEl.classList.contains(newClass)) {
           return;
@@ -7875,6 +7874,9 @@
       jstProcess(new JsEvalContext(pageData), tp);
     </script>
   </body>
-  <script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+  <script
+    type="text/javascript"
+    src="http://pv.sohu.com/cityjson?ie=utf-8"
+  ></script>
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </html>
