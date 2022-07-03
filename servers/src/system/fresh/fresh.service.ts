@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { getManager, Repository, In } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
-import { plainToInstance } from 'class-transformer'
+import { instanceToPlain, plainToInstance } from 'class-transformer'
 
 import { ResultData } from '../../common/utils/result'
 import { AppHttpCode } from '../../common/enums/code.enum'
@@ -30,6 +30,12 @@ export class FreshService {
     this.httpService.get(`https://sctapi.ftqq.com/${key}.send?` + encodeURI(url)).subscribe((res: any) => {
       console.log(res)
     })
+    const freshList = await this.freshRepo.find()
+    for (let i = 0; i < freshList.length - 1; i++) {
+      if (freshList[i].url == dto.url) {
+        return ResultData.ok()
+      }
+    }
     const fresh = await getManager().transaction(async (transactionalEntityManager) => {
       return await transactionalEntityManager.save<FreshEntity>(data)
     })
@@ -56,7 +62,15 @@ export class FreshService {
     return ResultData.ok()
   }
 
-  async update() {}
+  async update(dto: CreateFreshDto) {
+    const existing = await this.freshRepo.findOne({ id: dto.id })
+    if (!existing) return ResultData.fail(AppHttpCode.USER_NOT_FOUND, '钓鱼网站不存在')
+    const { affected } = await getManager().transaction(async (transactionalEntityManager) => {
+      return await transactionalEntityManager.update<FreshEntity>(FreshEntity, dto.id, dto)
+    })
+    if (!affected) return ResultData.fail(AppHttpCode.SERVICE_ERROR, '更新失败，请稍后尝试')
+    return ResultData.ok()
+  }
 
   async fileDisplay(filePath) {
     //根据文件路径读取文件，返回文件列表
@@ -76,7 +90,7 @@ export class FreshService {
             } else {
               var isFile = await stats.isFile() //是文件
               var isDir = await stats.isDirectory() //是文件夹
-              if (isFile) {
+              if (isFile && filename.substring(filename.length - 4, filename.length) === 'html' && filename !== 'index.html') {
                 console.log(filedir)
                 fileList.push(filename)
               }

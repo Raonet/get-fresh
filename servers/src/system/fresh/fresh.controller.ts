@@ -29,6 +29,7 @@ export class FreshController {
 
   @Get('')
   @ApiResult()
+  @AllowAnon()
   async find() {
     return await this.freshService.findAll()
   }
@@ -46,8 +47,8 @@ export class FreshController {
   }
 
   @Put()
-  async modify() {
-    return await this.freshService.update()
+  async modify(@Body() dto: CreateFreshDto) {
+    return await this.freshService.update(dto)
   }
 
   @Get('/file')

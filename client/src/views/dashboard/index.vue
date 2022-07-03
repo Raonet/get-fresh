@@ -41,7 +41,17 @@
               <el-table-column
                 prop="open"
                 label="开启"
-              />
+              >
+                <template #default="scope">
+                  <el-switch
+                    v-model="scope.row.open"
+                    inline-prompt
+                    active-text="是"
+                    inactive-text="否"
+                    @change="switchChange(scope.row)"
+                  />
+                </template>
+              </el-table-column>
               <el-table-column
                 prop="time"
                 label="时间"
@@ -72,13 +82,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, toRaw } from 'vue'
 
 import ProductCard from './components/ProductCard.vue'
 
 import Charts from '_c/Charts/index.vue'
 
-import { getFreshList, getFileList } from '@/api/fresh'
+import { getFreshList, getFileList, updateFresh } from '@/api/fresh'
 
 import dayjs from 'dayjs'
 
@@ -92,6 +102,9 @@ export default defineComponent({
 
     const getList = function () {
       getFreshList().then((res) => {
+        res.data.forEach((item: any) => {
+          item.open === '1'? item.open = true : item.open = false;
+        })
         tableData.value = res.data.reverse();
       })
     }
@@ -102,7 +115,7 @@ export default defineComponent({
       return dayjs(Number(cellValue)).format("YYYY-MM-DD HH:mm:ss");
     }
 
-    const getFile = function() {
+    const getFile = function () {
       getFileList().then((res: any) => {
         fileList.value = res.data;
       })
@@ -110,11 +123,20 @@ export default defineComponent({
 
     getFile();
 
+    const switchChange = (item: any) => {
+      const data = toRaw(item);
+      data.open ? data.open = '1' : data.open = '0';
+      updateFresh(data).then(() => {
+        getList();
+      });
+    }
+
 
     return {
       fileList,
       tableData,
-      formatterTime
+      formatterTime,
+      switchChange
     }
   }
 })

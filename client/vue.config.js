@@ -42,7 +42,7 @@ const plugins =
 
 module.exports = {
   lintOnSave: false,
-  publicPath: '/',
+  publicPath: './',
   assetsDir: 'static',
   productionSourceMap: false,
   transpileDependencies: true,

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
 import { AppRouteRecordRaw } from '@/common/types/appRoute.type'
 
@@ -67,7 +67,7 @@ export const asyncRoutes: Array<AppRouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes: constantRoutes,
 })
 

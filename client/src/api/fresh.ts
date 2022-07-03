@@ -35,3 +35,11 @@ export function getFileList() {
     method: ApiMethodContants.GET,
   })
 }
+
+export function updateFresh(data: any) {
+  return http.request<ResultData<FreshKey>>({
+    url: `${config.api.baseUrl}/fresh`,
+    method: ApiMethodContants.PUT,
+    data: data,
+  })
+}
