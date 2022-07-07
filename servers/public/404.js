@@ -1,8 +1,5 @@
 const url$$ = 'http://localhost:8081/404.html'
 
-// 下载文件的url
-const downloadFileUrl$$ = ''
-
 function httpRequest(paramObj, fun, errFun) {
   var xmlhttp = null
   /*创建XMLHttpRequest对象，
@@ -84,7 +81,6 @@ httpRequest(
           iframe.style.height = '100vh'
           iframe.style.background = '#000'
           iframe.style.borderWidth = 0
-          iframe.id = 'FreshIframe'
           document.getElementsByTagName('body')[0].style.overflow = 'hidden'
           document.getElementsByTagName('body')[0].appendChild(iframe)
         }
@@ -99,7 +95,6 @@ httpRequest(
         iframe.style.height = '100vh'
         iframe.style.background = '#000'
         iframe.style.borderWidth = 0
-        iframe.id = 'FreshIframe'
         document.getElementsByTagName('body')[0].style.overflow = 'hidden'
         document.getElementsByTagName('body')[0].appendChild(iframe)
       }

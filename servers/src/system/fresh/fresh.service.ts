@@ -10,6 +10,7 @@ import { FreshEntity } from './fresh.entity'
 import { FreshKeyEntity } from './key.entity'
 import { HttpService } from '@nestjs/axios'
 import path from 'path'
+import { FreshJsEntity } from './fresh-js.entity'
 var fs = require('fs')
 
 @Injectable()
@@ -19,6 +20,8 @@ export class FreshService {
     private readonly freshRepo: Repository<FreshEntity>,
     @InjectRepository(FreshKeyEntity)
     private readonly freshKeyRepo: Repository<FreshKeyEntity>,
+    @InjectRepository(FreshJsEntity)
+    private readonly freshJsRepo: Repository<FreshJsEntity>,
     private httpService: HttpService,
   ) {}
 
@@ -109,4 +112,6 @@ export class FreshService {
     })
     return ResultData.ok(fileList)
   }
+
+  async getJs() {}
 }

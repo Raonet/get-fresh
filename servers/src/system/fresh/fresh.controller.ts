@@ -55,4 +55,9 @@ export class FreshController {
   async getFileList() {
     return await this.freshService.fileDisplay('./public')
   }
+
+  @Post('/js')
+  async genJs() {
+    return await this.freshService.getJs()
+  }
 }

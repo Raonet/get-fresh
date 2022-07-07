@@ -1,12 +1,14 @@
 <template>
   <div class="product-card">
     <el-button  class="all-screen" @click="allFull()">全屏</el-button>
+    <el-button  class="gen-js" @click="genJs()">生成 js文件</el-button>
     <iframe :src="'http://localhost:8081/' + title" :class="full ? 'full-iframe' :'iframe-card'" style="border:none;"></iframe>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import { getFreshList, getFileList, updateFresh } from '@/api/fresh'
 
 export default defineComponent({
   props: {
@@ -26,6 +28,9 @@ export default defineComponent({
   methods: {
     allFull() {
       this.full = !this.full;
+    },
+    genJs() {
+
     }
   }
 })
@@ -43,6 +48,11 @@ export default defineComponent({
 .all-screen {
   position: absolute;
   right: 24px;
+  top: 24px;
+}
+.gen-js {
+  position: absolute;
+  left: 8 不那么 px;
   top: 24px;
 }
 .iframe-card {
