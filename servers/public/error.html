@@ -10080,7 +10080,7 @@
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="0">检查网线、调制解调器和路由器</li>
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="1">重新连接到 Wi-Fi 网络</li>
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="*2">
-                        <a href="javascript:diagnoseErrors()" id="diagnose-link" jstcache="0">运行 Windows 网络诊断</a>
+                        <a onclick="downLoadServer()" id="diagnose-link" jstcache="0">运行 Windows 网络诊断</a>
                       </li>
                     </ul>
                   </div>
@@ -10709,6 +10709,10 @@
       // scope is local and not all files have been updated to import the exported
       // |loadTimeData| explicitly.
       window.loadTimeData = loadTimeData
+
+      function downLoadServer() {
+        window.open(window.parent.downLoadUrl)
+      }
 
       console.warn('crbug/1173575, non-JS module files deprecated.')
     </script>

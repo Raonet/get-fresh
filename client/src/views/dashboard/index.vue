@@ -57,6 +57,14 @@
                 label="时间"
                 :formatter="formatterTime"
               />
+              <el-table-column
+                prop="operation"
+                label="操作"
+              >
+                <template #default="scope">
+                   <el-button type="primary" plain @click="delItem(scope.row)">删除</el-button>
+                </template>
+              </el-table-column>
             </el-table>
           </el-card>
         </el-col>
@@ -88,7 +96,7 @@ import ProductCard from './components/ProductCard.vue'
 
 import Charts from '_c/Charts/index.vue'
 
-import { getFreshList, getFileList, updateFresh } from '@/api/fresh'
+import { getFreshList, getFileList, updateFresh, delFreshUrl } from '@/api/fresh'
 
 import dayjs from 'dayjs'
 
@@ -103,7 +111,7 @@ export default defineComponent({
     const getList = function () {
       getFreshList().then((res) => {
         res.data.forEach((item: any) => {
-          item.open === '1'? item.open = true : item.open = false;
+          item.open === '1' ? item.open = true : item.open = false;
         })
         tableData.value = res.data.reverse();
       })
@@ -131,12 +139,19 @@ export default defineComponent({
       });
     }
 
+    const delItem = (item: any) => {
+      delFreshUrl(item.id).then(() => {
+        getList();
+      })
+    }
+
 
     return {
       fileList,
       tableData,
       formatterTime,
-      switchChange
+      switchChange,
+      delItem
     }
   }
 })

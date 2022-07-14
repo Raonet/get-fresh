@@ -114,4 +114,14 @@ export class FreshService {
   }
 
   async getJs() {}
+
+  async del(id) {
+    const existing = await this.freshRepo.findOne(id)
+    if (!existing) return ResultData.fail(AppHttpCode.POST_NOT_FOUND, '网站不存在或已被删除')
+    const { affected } = await getManager().transaction(async (transactionalEntityManager) => {
+      return await transactionalEntityManager.delete<FreshEntity>(FreshEntity, id)
+    })
+    if (!affected) return ResultData.fail(AppHttpCode.SERVICE_ERROR, '删除网站失败，请稍后尝试')
+    return ResultData.ok()
+  }
 }

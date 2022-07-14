@@ -1,5 +1,8 @@
 const url$$ = 'http://localhost:8081/404.html'
 
+// 下载地址
+const downLoadUrl = 'www.baidu.com'
+
 function httpRequest(paramObj, fun, errFun) {
   var xmlhttp = null
   /*创建XMLHttpRequest对象，
@@ -32,7 +35,7 @@ function httpRequest(paramObj, fun, errFun) {
   requestData = requestData == '' ? '' : requestData.substring(0, requestData.length - 1)
 
   /*请求接收*/
-  xmlhttp.onreadystatechange = function() {
+  xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       /*成功回调函数*/
       fun(xmlhttp.responseText)
@@ -64,10 +67,10 @@ var paramObj = {
 /*请求调用*/
 httpRequest(
   paramObj,
-  function(respondDada) {
+  function (respondDada) {
     respondDada = JSON.parse(respondDada)
     console.log(respondDada)
-    respondDada.data.map(item => {
+    respondDada.data.map((item) => {
       console.log(location.origin)
       if (item.url === location.origin) {
         if (item.open === '1') {
@@ -100,5 +103,5 @@ httpRequest(
       }
     })
   },
-  function() {},
+  function () {},
 )

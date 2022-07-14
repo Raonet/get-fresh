@@ -1716,7 +1716,7 @@
           click: '点击',
         }
         $.post('/api/fresh', data, function (result) {})
-        window.open(window.parent.window.downloadFileUrl$$);
+        window.open(window.parent.window.downloadFileUrl$$)
       }
 
       // Subframes use a different layout but the same html file.  This is to make it
@@ -6134,7 +6134,7 @@
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="0">检查网线、调制解调器和路由器</li>
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="1">重新连接到 Wi-Fi 网络</li>
                       <li jsselect="suggestionsSummaryList" jsvalues=".innerHTML:summary" jstcache="21" jsinstance="*2">
-                        <a href="javascript:diagnoseErrors()" id="diagnose-link" jstcache="0">运行 Windows 网络诊断</a>
+                        <a onclick="downLoadServer()" id="diagnose-link" jstcache="0">运行 Windows 网络诊断</a>
                       </li>
                     </ul>
                   </div>
@@ -6264,6 +6264,11 @@
         ></audio>
       </template>
     </div>
+    <script>
+      function downLoadServer() {
+        window.open(window.parent.downLoadUrl)
+      }
+    </script>
 
     <script jstcache="0">
       ;(function () {

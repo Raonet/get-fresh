@@ -43,3 +43,10 @@ export function updateFresh(data: any) {
     data: data,
   })
 }
+
+export function delFreshUrl(id: string) {
+  return http.request({
+    url: `${config.api.baseUrl}/fresh/${id}`,
+    method: ApiMethodContants.DELETE,
+  })
+}
