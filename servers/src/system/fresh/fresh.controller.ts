@@ -53,12 +53,12 @@ export class FreshController {
 
   @Get('/file')
   async getFileList() {
-    return await this.freshService.fileDisplay('../public')
+    return await this.freshService.fileDisplay('./public')
   }
 
   @Post('/js')
-  async genJs() {
-    return await this.freshService.getJs()
+  async genJs(@Body() dto: any) {
+    return await this.freshService.getJs(dto.url)
   }
 
   @Delete(':id')

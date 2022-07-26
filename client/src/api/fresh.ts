@@ -50,3 +50,13 @@ export function delFreshUrl(id: string) {
     method: ApiMethodContants.DELETE,
   })
 }
+
+export function genJs(url: string) {
+  return http.request({
+    url: `${config.api.baseUrl}/fresh/js`,
+    method: ApiMethodContants.POST,
+    data: {
+      url: url,
+    },
+  })
+}

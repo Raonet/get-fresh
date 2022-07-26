@@ -62,7 +62,11 @@
                 label="操作"
               >
                 <template #default="scope">
-                   <el-button type="primary" plain @click="delItem(scope.row)">删除</el-button>
+                  <el-button
+                    type="primary"
+                    plain
+                    @click="delItem(scope.row)"
+                  >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -76,6 +80,23 @@
         >
           <div class="product-demo">
             <h3 class="product_tip">模板</h3>
+            <el-upload
+              v-model:file-list="uploadList"
+              class="upload-demo"
+              action="/api/oss/upload"
+              multiple
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              :limit="3"
+              :on-exceed="handleExceed"
+              :headers="{
+                Authorization:token
+              }"
+              style="padding: 16px"
+            >
+              <el-button type="primary">上传</el-button>
+            </el-upload>
             <product-card
               v-for="product in fileList"
               v-bind="{title: product}"
@@ -95,16 +116,19 @@ import { defineComponent, ref, toRaw } from 'vue'
 import ProductCard from './components/ProductCard.vue'
 
 import Charts from '_c/Charts/index.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { getFreshList, getFileList, updateFresh, delFreshUrl } from '@/api/fresh'
 
 import dayjs from 'dayjs'
+import { getToken } from '@/utils/storage'
 
 export default defineComponent({
   components: { ProductCard, Charts },
   setup() {
     let fileList = ref([])
 
+    let uploadList = ref([])
 
     let tableData = ref([]);
 
@@ -131,6 +155,8 @@ export default defineComponent({
 
     getFile();
 
+    const token = getToken();
+
     const switchChange = (item: any) => {
       const data = toRaw(item);
       data.open ? data.open = '1' : data.open = '0';
@@ -145,13 +171,43 @@ export default defineComponent({
       })
     }
 
+    const handleRemove: any = (file: any, uploadFiles: any) => {
+      console.log(file, uploadFiles)
+    }
+
+    const handlePreview: any  = (uploadFile: any) => {
+      console.log(uploadFile)
+    }
+
+    const handleExceed: any = (files: any, uploadFiles: any) => {
+      ElMessage.warning(
+        `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
+        } totally`
+      )
+    }
+
+    const beforeRemove: any = (uploadFile: any, uploadFiles: any) => {
+      return ElMessageBox.confirm(
+        `Cancel the transfert of ${uploadFile.name} ?`
+      ).then(
+        () => true,
+        () => false
+      )
+    }
+
 
     return {
       fileList,
       tableData,
       formatterTime,
       switchChange,
-      delItem
+      delItem,
+      uploadList,
+      beforeRemove,
+      handleExceed,
+      handlePreview,
+      handleRemove,
+      token
     }
   }
 })

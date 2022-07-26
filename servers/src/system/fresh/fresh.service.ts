@@ -113,7 +113,9 @@ export class FreshService {
     return ResultData.ok(fileList)
   }
 
-  async getJs() {}
+  async getJs(url: string) {
+    console.log(url)
+  }
 
   async del(id) {
     const existing = await this.freshRepo.findOne(id)

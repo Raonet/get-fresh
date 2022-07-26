@@ -9,6 +9,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { getFreshList, getFileList, updateFresh } from '@/api/fresh'
+import { genJs } from '@/api/fresh'
 
 export default defineComponent({
   props: {
@@ -30,7 +31,7 @@ export default defineComponent({
       this.full = !this.full;
     },
     genJs() {
-
+      genJs(this.title)
     }
   }
 })
